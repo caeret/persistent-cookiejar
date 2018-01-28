@@ -32,17 +32,15 @@ func (j *Jar) Save() error {
 func (j *Jar) SaveTo(r io.Reader, w io.Writer) error {
 	j.mu.Lock()
 	defer j.mu.Unlock()
-	if r != nil{
+	if r != nil {
 		if err := j.mergeFrom(r); err != nil {
 			// The cookie file is probably corrupt.
 			log.Printf("cannot read cookie file to merge it; ignoring it: %v", err)
 		}
 	}
-	//j.deleteExpired(time.Now())
+	j.deleteExpired(time.Now())
 	return j.writeTo(w)
 }
-
-
 
 // save is like Save but takes the current time as a parameter.
 func (j *Jar) save(now time.Time) error {
