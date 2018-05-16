@@ -101,7 +101,7 @@ func (j *Jar) load() error {
 	return nil
 }
 
-// mergeFrom reads all the cookies from r and stores them in the Jar.
+//  reads all the cookies from r and stores them in the Jar.
 func (j *Jar) mergeFrom(r io.Reader) error {
 	decoder := json.NewDecoder(r)
 	// Cope with old cookiejar format by just discarding
@@ -150,14 +150,12 @@ func (j *Jar) allPersistentEntries() []entry {
 }
 
 func (j *Jar) allEntries() []entry {
-	j.mu.Lock()
 	var entries []entry
 	for _, submap := range j.entries {
 		for _, e := range submap {
 			entries = append(entries, e)
 		}
 	}
-	j.mu.Unlock()
 	sort.Sort(byCanonicalHost{entries})
 	return entries
 }
