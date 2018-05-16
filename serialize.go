@@ -38,7 +38,7 @@ func (j *Jar) SaveTo(r io.Reader, w io.Writer) error {
 			log.Printf("cannot read cookie file to merge it; ignoring it: %v", err)
 		}
 	}
-//	j.deleteExpired(time.Now())
+	j.deleteExpired(time.Now())
 	return j.writeTo(w)
 }
 
