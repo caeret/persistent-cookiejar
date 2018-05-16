@@ -38,7 +38,7 @@ func (j *Jar) SaveTo(r io.Reader, w io.Writer) error {
 			log.Printf("cannot read cookie file to merge it; ignoring it: %v", err)
 		}
 	}
-	j.deleteExpired(time.Now())
+//	j.deleteExpired(time.Now())
 	return j.writeTo(w)
 }
 
@@ -150,12 +150,14 @@ func (j *Jar) allPersistentEntries() []entry {
 }
 
 func (j *Jar) allEntries() []entry {
+	j.mu.Lock()
 	var entries []entry
 	for _, submap := range j.entries {
 		for _, e := range submap {
 			entries = append(entries, e)
 		}
 	}
+	j.mu.Unlock()
 	sort.Sort(byCanonicalHost{entries})
 	return entries
 }
